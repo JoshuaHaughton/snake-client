@@ -1,52 +1,12 @@
+const {MOVE_UP_KEY, MOVE_LEFT_KEY, MOVE_DOWN_KEY, MOVE_RIGHT_KEY, IP, PORT} = require('./constants')
+let net = require('net')
+
+let conn = net.createConnection({
+  host: IP,
+  port: PORT
+});;
+
 let connection;
-
-const handleUserInput = function () {
-  //checks if ctrl + c is pressed and terminates session
-  if (key === '\u0003') {
-    process.exit();
-  }
-  //movement
-  if (key === 'w') {
-    conn.write('Move: up')
-  }
-  if (key === 'a') {
-    conn.write('Move: left')
-  }
-  if (key === 's') {
-    conn.write('Move: down')
-  }
-  if (key === 'd') {
-    conn.write('Move: right')
-  }
-
-
-  //chat macros
-  if (key === '1') {
-    conn.write('Say: WOOF WOOF')
-  }
-  if (key === '2') {
-    conn.write('Say: Do i smell chicken??? 👀')
-  }
-  if (key === '3') {
-    conn.write("Say: IT'S ABOUT PRIDE")
-  }
-  if (key === '4') {
-    conn.write("Say: ITS ABOUT POWER")
-  }
-  if (key === '5') {
-    conn.write('Say: WE STAY HUNGRY')
-  }
-  if (key === '6') {
-    conn.write('Say: WE DEVOUR')
-  }
-  if (key === '7') {
-    conn.write('Say: time 2 poop')
-  }
-  if (key === '8') {
-    conn.write('Say: Hola!!!!')
-  }
-  
-};
 
 const setupInput = function (conn) {
   connection = conn;
@@ -57,5 +17,55 @@ const setupInput = function (conn) {
   stdin.on("data", handleUserInput);
   return stdin;
 };
+
+const handleUserInput = function (data) {
+  //checks if ctrl + c is pressed and terminates session
+  if(data === '\u0003') {
+    process.exit();
+  }
+  //movement
+  if (data === MOVE_UP_KEY) {
+    conn.write('Move: up')
+  }
+  if (data === MOVE_LEFT_KEY) {
+    conn.write('Move: left')
+  }
+  if (data === MOVE_DOWN_KEY) {
+    conn.write('Move: down')
+  }
+  if (data === MOVE_RIGHT_KEY) {
+    conn.write('Move: right')
+  }
+
+
+  //chat macros
+  if (data === '8') {
+    conn.write('Say: WOOF WOOF')
+  }
+  if (data === '7') {
+    conn.write('Say: Do i smell chicken??? 👀')
+  }
+  if (data === '9') {
+    conn.write("Say: IT'S ABOUT PRIDE")
+  }
+  if (data === '0') {
+    conn.write("Say: ITS ABOUT POWER")
+  }
+  if (data === 'h') {
+    conn.write('Say: WE STAY HUNGRY')
+  }
+  if (data === 'j') {
+    conn.write('Say: WE DEVOUR')
+  }
+  if (data === 'p') {
+    conn.write('Say: time 2 poop')
+  }
+  if (data === 'l') {
+    conn.write('Say: Hola!!!!')
+  }
+  
+};
+
+
 
 module.exports = {setupInput}

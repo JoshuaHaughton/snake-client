@@ -1,3 +1,4 @@
+const {setupInput} = require('./input')
 const {connect} = require('./client')
 const net = require("net");
 
@@ -7,3 +8,6 @@ const net = require("net");
 console.log("Connecting ...");
 connect();
 
+let conn = connect();
+//pass the object returned from connect into setupInput
+setupInput(conn);
